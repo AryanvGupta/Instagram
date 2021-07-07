@@ -1,0 +1,2 @@
+rootProject.name = "Insta_Clone"
+include ':app'
