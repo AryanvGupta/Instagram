@@ -2,6 +2,7 @@ package com.example.insta_clone
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.insta_clone.databinding.ActivityMainBinding
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.hide()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
