@@ -170,7 +170,7 @@
                     <Button
                         android:id="@+id/edit_account_settings_btn"
                         android:layout_width="170dp"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/buttons_background"
