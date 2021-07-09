@@ -17,7 +17,7 @@
         android:layout_marginTop="180dp"/>
 
     <EditText
-        android:id="@+id/email_login"
+        android:id="@+id/fullname_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/inputs_background"
@@ -26,17 +26,45 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="6dp"
+        android:inputType="text"
+        android:hint="Full Name"
+        />
+
+    <EditText
+        android:id="@+id/username_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/inputs_background"
+        android:padding="10dp"
+        android:layout_below="@+id/fullname_signup"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"
+        android:inputType="text"
+        android:hint="Username"
+        />
+
+    <EditText
+        android:id="@+id/email_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/inputs_background"
+        android:padding="10dp"
+        android:layout_below="@+id/username_signup"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="6dp"
         android:inputType="textEmailAddress"
         android:hint="Email"
         />
 
     <EditText
-        android:id="@+id/password_login"
+        android:id="@+id/password_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/inputs_background"
         android:padding="10dp"
-        android:layout_below="@+id/email_login"
+        android:layout_below="@+id/email_signup"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="6dp"
@@ -45,21 +73,21 @@
         />
 
     <Button
-        android:id="@+id/login_btn"
+        android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password_login"
+        android:layout_below="@+id/password_signup"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="6dp"
         android:background="@color/white"
-        android:text="Login"
+        android:text="Register"
         android:textAllCaps="false"
         android:textSize="18dp"
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/signup_link_btn"
+        android:id="@+id/login_link_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -68,7 +96,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginBottom="10dp"
         android:background="@color/colorPrimary"
-        android:text="New to Instagram? Sign Up"
+        android:text="Already have an Account? Login"
         android:textAllCaps="false"
         android:textSize="18dp"
         android:textColor="@color/white" />
