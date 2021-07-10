@@ -34,10 +34,10 @@ class SignUpActivity : AppCompatActivity() {
         val password = password_signup.text.toString()
 
         when{
-            TextUtils.isEmpty(fullname) -> Toast.makeText(this, "Please Enter Your FULLNAME.", Toast.LENGTH_LONG)
-            TextUtils.isEmpty(username) -> Toast.makeText(this, "Please Enter Your USERNAME.", Toast.LENGTH_LONG)
-            TextUtils.isEmpty(email) -> Toast.makeText(this, "EMAIL is required.", Toast.LENGTH_LONG)
-            TextUtils.isEmpty(password) -> Toast.makeText(this, "PASSWORD is required.", Toast.LENGTH_LONG)
+            TextUtils.isEmpty(fullname) -> Toast.makeText(this, "Please Enter Your FULLNAME.", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(username) -> Toast.makeText(this, "Please Enter Your USERNAME.", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(email) -> Toast.makeText(this, "EMAIL is required.", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(password) -> Toast.makeText(this, "PASSWORD is required.", Toast.LENGTH_LONG).show()
 
             else -> {
                 val progressDialog = ProgressDialog(this@SignUpActivity)
@@ -56,7 +56,7 @@ class SignUpActivity : AppCompatActivity() {
                         else{
                             val message = task.exception!!.toString()
 
-                            Toast.makeText(this, "Error: $message", Toast.LENGTH_LONG)
+                            Toast.makeText(this, "Error: $message", Toast.LENGTH_LONG).show()
                             mAuth.signOut()
                             progressDialog.dismiss()
                         }
@@ -81,7 +81,7 @@ class SignUpActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful){
                     progressDialog.dismiss()
-                    Toast.makeText(this, "Account has been created successfully", Toast.LENGTH_LONG)
+                    Toast.makeText(this, "Account has been created successfully", Toast.LENGTH_LONG).show()
 
                     val intent = Intent(this@SignUpActivity, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -91,7 +91,7 @@ class SignUpActivity : AppCompatActivity() {
                 else{
                     val message = task.exception!!.toString()
 
-                    Toast.makeText(this, "Error: $message", Toast.LENGTH_LONG)
+                    Toast.makeText(this, "Error: $message", Toast.LENGTH_LONG).show()
                     FirebaseAuth.getInstance().signOut()
                     progressDialog.dismiss()
                 }
