@@ -19,6 +19,7 @@ import com.google.firebase.storage.UploadTask
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_account_settings.*
 import kotlinx.android.synthetic.main.activity_add_post.*
+import kotlinx.android.synthetic.main.posts_layout.*
 
 class AddPostActivity : AppCompatActivity() {
     private var myUrl = ""
@@ -33,9 +34,10 @@ class AddPostActivity : AppCompatActivity() {
 
         save_new_post_btn.setOnClickListener { uploadImage() }
 
+        val width = post_image_home.maxWidth
         CropImage.activity()
 //            .setAspectRatio(1, 1)
-//            .setMaxCropResultSize()
+            .setMaxCropResultSize(width, width)
             .start(this@AddPostActivity)
     }
 
