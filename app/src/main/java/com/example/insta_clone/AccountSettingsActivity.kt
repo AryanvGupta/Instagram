@@ -70,8 +70,6 @@ class AccountSettingsActivity : AppCompatActivity() {
     }
 
     private fun uploadImageAndUpdateInfo() {
-
-
         when {
             imageUri == null -> Toast.makeText(this, "Please select a valid image.", Toast.LENGTH_LONG).show()
             full_name_profile_frag.text.toString() == "" || user_name_profile_frag.text.toString() == "" -> {
