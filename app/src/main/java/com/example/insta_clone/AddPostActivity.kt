@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Continuation
@@ -34,11 +35,14 @@ class AddPostActivity : AppCompatActivity() {
 
         save_new_post_btn.setOnClickListener { uploadImage() }
 
-        var width = 220
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        var width = displayMetrics.widthPixels
 
         CropImage.activity()
-            .setAspectRatio(1, 1)
-//            .setMaxCropResultSize(width, width)
+//            .setAspectRatio(1, 1)
+            .setMaxCropResultSize(width, width)
             .start(this@AddPostActivity)
     }
 
