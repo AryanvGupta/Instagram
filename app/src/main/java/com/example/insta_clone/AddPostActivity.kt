@@ -34,10 +34,11 @@ class AddPostActivity : AppCompatActivity() {
 
         save_new_post_btn.setOnClickListener { uploadImage() }
 
-        val width = post_image_home.maxWidth
+        var width = 220
+
         CropImage.activity()
-//            .setAspectRatio(1, 1)
-            .setMaxCropResultSize(width, width)
+            .setAspectRatio(1, 1)
+//            .setMaxCropResultSize(width, width)
             .start(this@AddPostActivity)
     }
 
