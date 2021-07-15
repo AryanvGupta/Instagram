@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import com.example.insta_clone.CommentActivity
 import com.example.insta_clone.MainActivity
 import com.example.insta_clone.Model.Post
 import com.example.insta_clone.Model.User
@@ -97,6 +98,12 @@ class PostAdapter (private val mContext: Context,
                 mContext.startActivity(intent)
             }
         }
+
+        holder.commentButton.setOnClickListener {
+            val intentComment = Intent(mContext, CommentActivity::class.java)
+            mContext.startActivity(intentComment)
+        }
+
     }
 
     private fun numberOfLikes(likes: TextView, postid: String) {
