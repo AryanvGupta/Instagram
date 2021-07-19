@@ -101,6 +101,8 @@ class PostAdapter (private val mContext: Context,
 
         holder.commentButton.setOnClickListener {
             val intentComment = Intent(mContext, CommentActivity::class.java)
+            intentComment.putExtra("postId", post.getPostid())
+            intentComment.putExtra("publisherId", post.getPublisher())
             mContext.startActivity(intentComment)
         }
 
