@@ -73,11 +73,14 @@ class PostAdapter (private val mContext: Context,
             holder.description.visibility = View.VISIBLE
             holder.description.setText(post.getDescription())
         }
+
         publisherInfo(holder.profileImage, holder.userName, holder.publisher, post.getPublisher())
 
         isLikes(post.getPostid(), holder.likeButton)
 
         numberOfLikes(holder.likes, post.getPostid())
+
+        getTotalComments(holder.comments, post.getPostid())
 
         holder.likeButton.setOnClickListener {
             if (holder.likeButton.tag == "Like") {
@@ -100,6 +103,13 @@ class PostAdapter (private val mContext: Context,
         }
 
         holder.commentButton.setOnClickListener {
+            val intentComment = Intent(mContext, CommentActivity::class.java)
+            intentComment.putExtra("postId", post.getPostid())
+            intentComment.putExtra("publisherId", post.getPublisher())
+            mContext.startActivity(intentComment)
+        }
+
+        holder.comments.setOnClickListener {
             val intentComment = Intent(mContext, CommentActivity::class.java)
             intentComment.putExtra("postId", post.getPostid())
             intentComment.putExtra("publisherId", post.getPublisher())
@@ -137,6 +147,21 @@ class PostAdapter (private val mContext: Context,
                 else {
                     likeButton.setImageResource(R.drawable.heart_not_clicked)
                     likeButton.tag = "Like"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun getTotalComments(comments: TextView, postid: String) {
+        val commentsRef = FirebaseDatabase.getInstance().reference
+            .child("Comments").child(postid)
+
+        commentsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(pO: DataSnapshot) {
+                if (pO.exists()) {
+                    comments.text = "view all " + pO.childrenCount.toString() + " comments"
                 }
             }
 
