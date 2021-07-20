@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.insta_clone.Adapter.CommentsAdapter
+import com.example.insta_clone.Model.Comment
 import com.example.insta_clone.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -18,6 +22,8 @@ class CommentActivity : AppCompatActivity() {
     private var postId = ""
     private var publisherId = ""
     private var firebaseUser: FirebaseUser? = null
+    private var commentsAdapter: CommentsAdapter? = null
+    private var commentList: MutableList<Comment>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +34,16 @@ class CommentActivity : AppCompatActivity() {
         publisherId = intent.getStringExtra("publisherId").toString()
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
+
+        var recyclerView: RecyclerView = findViewById(R.id.recycler_view_comments)
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.reverseLayout = true
+        recyclerView.layoutManager = linearLayoutManager
+
+        commentList = ArrayList()
+        commentsAdapter = CommentsAdapter(this, commentList)
+        recyclerView.adapter = commentsAdapter
+
         userInfo()
 
         post_comment.setOnClickListener (View.OnClickListener {
