@@ -16,6 +16,7 @@ import com.example.insta_clone.Adapter.MyPostsAdapter
 import com.example.insta_clone.Model.Post
 import com.example.insta_clone.Model.User
 import com.example.insta_clone.R
+import com.example.insta_clone.ShowUsersActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -101,6 +102,20 @@ class ProfileFragment : Fragment() {
         savedPostBtn.setOnClickListener {
             recyclerViewSavedImages.visibility = View.VISIBLE
             recyclerViewUplodedImages.visibility = View.GONE
+        }
+
+        view.total_followers.setOnClickListener {
+            val intent = Intent(context, ShowUsersActivity::class.java)
+            intent.putExtra("id", profileId)
+            intent.putExtra("title", "followers")
+            startActivity(intent)
+        }
+
+        view.total_following.setOnClickListener {
+            val intent = Intent(context, ShowUsersActivity::class.java)
+            intent.putExtra("id", profileId)
+            intent.putExtra("title", "following")
+            startActivity(intent)
         }
 
         view.edit_account_settings_btn.setOnClickListener {

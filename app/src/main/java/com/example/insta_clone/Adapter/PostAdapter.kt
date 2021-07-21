@@ -14,6 +14,7 @@ import com.example.insta_clone.MainActivity
 import com.example.insta_clone.Model.Post
 import com.example.insta_clone.Model.User
 import com.example.insta_clone.R
+import com.example.insta_clone.ShowUsersActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -102,6 +103,13 @@ class PostAdapter (private val mContext: Context,
                 val intent = Intent(mContext, MainActivity::class.java)
                 mContext.startActivity(intent)
             }
+        }
+
+        holder.likes.setOnClickListener {
+            val intent = Intent(mContext, ShowUsersActivity::class.java)
+            intent.putExtra("id", post.getPostid())
+            intent.putExtra("title", "likes")
+            mContext.startActivity(intent)
         }
 
         holder.commentButton.setOnClickListener {
