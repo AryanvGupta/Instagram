@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.insta_clone.AccountSettingsActivity
+import com.example.insta_clone.Adapter.MyPostsAdapter
 import com.example.insta_clone.Model.Post
 import com.example.insta_clone.Model.User
 import com.example.insta_clone.R
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -35,6 +37,7 @@ class ProfileFragment : Fragment() {
     private lateinit var firebaseUser: FirebaseUser
 
     var postList: List<Post>? = null
+    var myPostsAdapter: MyPostsAdapter? = null
 
 
     override fun onCreateView(
@@ -63,6 +66,10 @@ class ProfileFragment : Fragment() {
         recyclerViewUplodedImages.setHasFixedSize(true)
         val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 3)
         recyclerViewUplodedImages.layoutManager = linearLayoutManager
+
+        postList = ArrayList()
+        myPostsAdapter = context?.let { MyPostsAdapter(it, postList as ArrayList<Post>) }
+        recyclerViewUplodedImages.adapter = myPostsAdapter
 
         view.edit_account_settings_btn.setOnClickListener {
             val getButtonText = view.edit_account_settings_btn.text.toString()
@@ -109,6 +116,7 @@ class ProfileFragment : Fragment() {
         getFollowers()
         getFollowing()
         userInfo()
+        myPosts()
 
         return view
     }
@@ -185,6 +193,7 @@ class ProfileFragment : Fragment() {
                             (postList as ArrayList<Post>).add(post)
                         }
                         Collections.reverse(postList)
+                        myPostsAdapter!!.notifyDataSetChanged()
                     }
                 }
             }
