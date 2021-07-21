@@ -9,8 +9,15 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.example.insta_clone.Model.Post
 import com.example.insta_clone.R
+import com.squareup.picasso.Picasso
 
 class MyPostsAdapter (private val mContext: Context, mPost: List<Post>) : RecyclerView.Adapter<MyPostsAdapter.ViewHolder?>() {
+
+    private var mPost: List<Post>? = null
+
+    init {
+        this.mPost = mPost
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.posts_item_layout, parent, false)
@@ -19,7 +26,8 @@ class MyPostsAdapter (private val mContext: Context, mPost: List<Post>) : Recycl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val post: Post = mPost!![position]
+        Picasso.get().load(post.getPostimage()).into(holder.postImage)
     }
 
     override fun getItemCount(): Int {
