@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.insta_clone.AccountSettingsActivity
+import com.example.insta_clone.Model.Post
 import com.example.insta_clone.Model.User
 import com.example.insta_clone.R
 import com.google.firebase.auth.FirebaseAuth
@@ -31,13 +32,8 @@ class ProfileFragment : Fragment() {
     private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-//    }
+    var postList: List<Post>? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +55,8 @@ class ProfileFragment : Fragment() {
         else if (profileId != firebaseUser.uid) {
             checkFollowAndFollowingButtonStatus()
         }
+
+
 
         view.edit_account_settings_btn.setOnClickListener {
             val getButtonText = view.edit_account_settings_btn.text.toString()
@@ -167,6 +165,8 @@ class ProfileFragment : Fragment() {
         })
     }
 
+
+
     private fun userInfo() {
         val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
 
@@ -213,25 +213,5 @@ class ProfileFragment : Fragment() {
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
     }
-
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment ProfileFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            ProfileFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
 
 }
