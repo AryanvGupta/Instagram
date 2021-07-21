@@ -119,7 +119,7 @@ class PostAdapter (private val mContext: Context,
         }
 
         holder.saveButton.setOnClickListener {
-            if (holder.saveButton.tag == "save") {
+            if (holder.saveButton.tag == "Save") {
                 FirebaseDatabase.getInstance().reference
                     .child("Saves")
                     .child(firebaseUser!!.uid)
@@ -230,3 +230,4 @@ class PostAdapter (private val mContext: Context,
         })
     }
 }
+
