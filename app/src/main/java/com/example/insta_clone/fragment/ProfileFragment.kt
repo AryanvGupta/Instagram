@@ -28,17 +28,16 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
     private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
 
     var postList: List<Post>? = null
     var myPostsAdapter: MyPostsAdapter? = null
+
+    var postListSaved: List<Post>? = null
+    var myPostsAdapterSaved: MyPostsAdapter? = null
+    var mySavedImg: List<String>? = null
 
 
     override fun onCreateView(
@@ -62,6 +61,7 @@ class ProfileFragment : Fragment() {
             checkFollowAndFollowingButtonStatus()
         }
 
+        // RecyclerView for Uploaded Posts
         var recyclerViewUplodedImages: RecyclerView
         recyclerViewUplodedImages = view.findViewById(R.id.recycler_view_uploaded_post)
         recyclerViewUplodedImages.setHasFixedSize(true)
@@ -71,6 +71,19 @@ class ProfileFragment : Fragment() {
         postList = ArrayList()
         myPostsAdapter = context?.let { MyPostsAdapter(it, postList as ArrayList<Post>) }
         recyclerViewUplodedImages.adapter = myPostsAdapter
+
+
+        // RecyclerView for Saved Posts
+        var recyclerViewSavedImages: RecyclerView
+        recyclerViewSavedImages = view.findViewById(R.id.recycler_view_saved_post)
+        recyclerViewSavedImages.setHasFixedSize(true)
+        val linearLayoutManager2: LinearLayoutManager = GridLayoutManager(context, 3)
+        recyclerViewSavedImages.layoutManager = linearLayoutManager2
+
+        postListSaved = ArrayList()
+        myPostsAdapterSaved = context?.let { MyPostsAdapter(it, postListSaved as ArrayList<Post>) }
+        recyclerViewSavedImages.adapter = myPostsAdapterSaved
+
 
         view.edit_account_settings_btn.setOnClickListener {
             val getButtonText = view.edit_account_settings_btn.text.toString()
@@ -119,8 +132,55 @@ class ProfileFragment : Fragment() {
         userInfo()
         myPosts()
         getTotalNoOfPosts()
+        mySaves()
 
         return view
+    }
+
+    private fun mySaves() {
+        mySavedImg = ArrayList()
+
+        val savedRef = FirebaseDatabase.getInstance().reference
+            .child("Saves")
+            .child(firebaseUser.uid)
+
+        savedRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (snapshot in dataSnapshot.children) {
+                        (mySavedImg as ArrayList<String>).add(snapshot.key!!)
+                    }
+                    readSavedPostData()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun readSavedPostData() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    (postListSaved as ArrayList<Post>).clear()
+
+                    for (snapshot in dataSnapshot.children) {
+                        val post = snapshot.getValue(Post::class.java)
+
+                        for (key in mySavedImg!!) {
+                            if (post!!.getPostid() == key) {
+                                (postListSaved as ArrayList<Post>).add(post!!)
+                            }
+                        }
+                    }
+                    myPostsAdapterSaved!!.notifyDataSetChanged()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     private fun checkFollowAndFollowingButtonStatus() {
