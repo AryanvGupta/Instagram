@@ -46,6 +46,7 @@ class CommentActivity : AppCompatActivity() {
 
         userInfo()
         readComments()
+        getPostImage()
 
         post_comment.setOnClickListener (View.OnClickListener {
             if (add_comment!!.text.toString() == "") {
@@ -80,6 +81,24 @@ class CommentActivity : AppCompatActivity() {
                     val user = p0.getValue<User>(User::class.java)
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_comment)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun getPostImage() {
+        val postRef = FirebaseDatabase.getInstance().reference
+            .child("Posts")
+            .child(postId!!).child("postimage")
+
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()){
+                    val image = p0.value.toString()
+
+                    Picasso.get().load(image).placeholder(R.drawable.profile).into(post_image_comment)
                 }
             }
 
