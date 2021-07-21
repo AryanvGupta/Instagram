@@ -1,5 +1,6 @@
 package com.example.insta_clone.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,11 @@ class PostDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_post_details, container, false)
+
+        val preferences = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
+        if (preferences != null) {
+            postId = preferences.getString("postId", "none").toString()
+        }
 
         var recyclerView: RecyclerView
         recyclerView = view.findViewById(R.id.recycler_view_post_details)
