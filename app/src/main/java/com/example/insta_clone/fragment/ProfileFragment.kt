@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -84,6 +85,23 @@ class ProfileFragment : Fragment() {
         myPostsAdapterSaved = context?.let { MyPostsAdapter(it, postListSaved as ArrayList<Post>) }
         recyclerViewSavedImages.adapter = myPostsAdapterSaved
 
+
+        recyclerViewSavedImages.visibility = View.GONE
+        recyclerViewUplodedImages.visibility = View.VISIBLE
+
+        var uploadedPostBtn: ImageButton
+        uploadedPostBtn = view.findViewById(R.id.images_grid_view_btn)
+        uploadedPostBtn.setOnClickListener {
+            recyclerViewSavedImages.visibility = View.GONE
+            recyclerViewUplodedImages.visibility = View.VISIBLE
+        }
+
+        var savedPostBtn: ImageButton
+        savedPostBtn = view.findViewById(R.id.images_save_btn)
+        savedPostBtn.setOnClickListener {
+            recyclerViewSavedImages.visibility = View.VISIBLE
+            recyclerViewUplodedImages.visibility = View.GONE
+        }
 
         view.edit_account_settings_btn.setOnClickListener {
             val getButtonText = view.edit_account_settings_btn.text.toString()
