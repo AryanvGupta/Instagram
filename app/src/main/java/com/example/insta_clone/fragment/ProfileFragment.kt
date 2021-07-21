@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.insta_clone.AccountSettingsActivity
 import com.example.insta_clone.Model.Post
 import com.example.insta_clone.Model.User
@@ -20,7 +23,6 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.util.*
-
 
 
 /**
@@ -56,7 +58,11 @@ class ProfileFragment : Fragment() {
             checkFollowAndFollowingButtonStatus()
         }
 
-
+        var recyclerViewUplodedImages: RecyclerView
+        recyclerViewUplodedImages = view.findViewById(R.id.recycler_view_uploaded_post)
+        recyclerViewUplodedImages.setHasFixedSize(true)
+        val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 3)
+        recyclerViewUplodedImages.layoutManager = linearLayoutManager
 
         view.edit_account_settings_btn.setOnClickListener {
             val getButtonText = view.edit_account_settings_btn.text.toString()
@@ -165,7 +171,28 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    private fun myPosts() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(pO: DataSnapshot) {
+                if (pO.exists()) {
+                    (postList as ArrayList<Post>).clear()
+
+                    for (snapshot in pO.children) {
+                        val post = snapshot.getValue(Post::class.java)!!
+                        if (post.getPublisher().equals(profileId)) {
+                            (postList as ArrayList<Post>).add(post)
+                        }
+                        Collections.reverse(postList)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+    }
 
     private fun userInfo() {
         val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
