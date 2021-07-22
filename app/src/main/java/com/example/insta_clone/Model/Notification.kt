@@ -19,7 +19,7 @@ class Notification {
         return userid
     }
 
-    fun setUserid(userid: String) {
+    fun setUserId(userid: String) {
         this.userid = userid
     }
 
