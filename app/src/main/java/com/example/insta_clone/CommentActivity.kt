@@ -132,8 +132,8 @@ class CommentActivity : AppCompatActivity() {
     }
 
     private fun addNotification() {
-        val postRef = FirebaseDatabase.getInstance().reference
-            .child("Posts")
+        val notiRef = FirebaseDatabase.getInstance().reference
+            .child("Notifications")
             .child(publisherId!!)
 
         val notiMap = HashMap<String, Any>()
@@ -141,6 +141,8 @@ class CommentActivity : AppCompatActivity() {
         notiMap["text"] = "commented: " + add_comment!!.text.toString()
         notiMap["postid"] = postId
         notiMap["ispost"] = true
+
+        notiRef.push().setValue(notiMap )
     }
 
 }

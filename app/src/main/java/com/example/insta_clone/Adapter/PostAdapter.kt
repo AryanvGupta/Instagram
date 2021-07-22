@@ -237,5 +237,7 @@ class PostAdapter (private val mContext: Context,
             override fun onCancelled(error: DatabaseError) {}
         })
     }
+
+
 }
 
