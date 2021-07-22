@@ -142,7 +142,7 @@ class CommentActivity : AppCompatActivity() {
         notiMap["postid"] = postId
         notiMap["ispost"] = true
 
-        notiRef.push().setValue(notiMap )
+        notiRef.push().setValue(notiMap)
     }
 
 }
