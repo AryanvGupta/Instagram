@@ -69,6 +69,8 @@ class CommentActivity : AppCompatActivity() {
 
         commentsRef.push().setValue(commentsMap)
 
+        addNotification()
+
         add_comment!!.text.clear()
     }
 
@@ -127,6 +129,18 @@ class CommentActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    private fun addNotification() {
+        val postRef = FirebaseDatabase.getInstance().reference
+            .child("Posts")
+            .child(publisherId!!)
+
+        val notiMap = HashMap<String, Any>()
+        notiMap["userid"] = firebaseUser!!.uid
+        notiMap["text"] = "commented: " + add_comment!!.text.toString()
+        notiMap["postid"] = postId
+        notiMap["ispost"] = true
     }
 
 }
