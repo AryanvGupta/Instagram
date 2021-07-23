@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.insta_clone.Adapter.PostAdapter
+import com.example.insta_clone.Adapter.StoryAdapter
 import com.example.insta_clone.Model.Post
 import com.example.insta_clone.R
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +24,7 @@ class HomeFragment : Fragment() {
     private var postList: MutableList<Post>? = null
     private var followingList: MutableList<Post>? = null
 
-
+    private var storyAdapter: StoryAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
