@@ -38,6 +38,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:layout_gravity="center"
         android:maxLines="1"
+        android:textSize="12sp"
         android:text="Add Story"/>
 
 </LinearLayout>
