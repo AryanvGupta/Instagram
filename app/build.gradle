@@ -70,4 +70,6 @@ dependencies {
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
     implementation 'com.google.firebase:firebase-messaging:20.2.3'
+
+    implementation 'com.github.shts.StoriesProgressView:3.0.0'
 }
