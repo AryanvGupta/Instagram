@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Insta_Clone">
-        <activity android:name=".AddStoryActivity"></activity>
+        <activity android:name=".StoryActivity"></activity>
+        <activity android:name=".AddStoryActivity" />
         <activity android:name=".ShowUsersActivity" />
         <activity android:name=".CommentActivity" />
         <activity android:name=".AddPostActivity" />
