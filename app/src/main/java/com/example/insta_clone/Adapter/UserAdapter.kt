@@ -1,6 +1,7 @@
 package com.example.insta_clone.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.insta_clone.MainActivity
 import com.example.insta_clone.Model.User
 import com.example.insta_clone.R
 import com.example.insta_clone.fragment.ProfileFragment
@@ -49,6 +51,11 @@ class UserAdapter (private var mContext: Context,
 
                 (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, ProfileFragment()).commit()
+            }
+            else {
+                val intent = Intent(mContext, MainActivity::class.java)
+                intent.putExtra("publisherId", user.getUID())
+                mContext.startActivity(intent)
             }
         })
 

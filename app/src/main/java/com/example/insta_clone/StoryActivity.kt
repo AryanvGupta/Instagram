@@ -1,5 +1,6 @@
 package com.example.insta_clone
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -75,7 +76,13 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
         skip.setOnClickListener { storiesProgressView!!.skip() }
         skip.setOnTouchListener(onTouchListener)
 
-        seen_number.setOnClickListener {  }
+        seen_number.setOnClickListener {
+            val intent = Intent(this@StoryActivity, ShowUsersActivity::class.java)
+            intent.putExtra("id", userId)
+            intent.putExtra("storyid", storyIDsList!![counter])
+            intent.putExtra("title", "views")
+            startActivity(intent)
+        }
 
     }
 
