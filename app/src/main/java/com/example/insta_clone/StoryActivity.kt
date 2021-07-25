@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.insta_clone.Model.Story
 import com.example.insta_clone.Model.User
@@ -82,6 +83,19 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
             intent.putExtra("storyid", storyIDsList!![counter])
             intent.putExtra("title", "views")
             startActivity(intent)
+        }
+
+        story_delete.setOnClickListener {
+            val ref = FirebaseDatabase.getInstance().reference
+                .child("Stories")
+                .child(userId!!)
+                .child(storyIDsList!![counter])
+
+            ref.removeValue().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this@StoryActivity, "Deleted...", Toast.LENGTH_LONG).show()
+                }
+            }
         }
 
     }
