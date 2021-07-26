@@ -88,7 +88,7 @@ class StoryAdapter (private val mContext: Context,
             }
             else {
                 val intent = Intent(mContext, StoryActivity::class.java)
-                intent.putExtra("userid", story.getUserId())
+                intent.putExtra("userId", story.getUserId())
                 mContext.startActivity(intent)
             }
         }
@@ -142,34 +142,38 @@ class StoryAdapter (private val mContext: Context,
                             dialogInterface, which ->
 
                             val intent = Intent(mContext, StoryActivity::class.java)
-                            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser!!.uid)
+                            intent.putExtra("userId", FirebaseAuth.getInstance().currentUser!!.uid)
                             mContext.startActivity(intent)
-                            alertDialog.dismiss()
+                            dialogInterface.dismiss()
                         }
 
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Add Story") {
                                 dialogInterface, which ->
 
                             val intent = Intent(mContext, AddStoryActivity::class.java)
-                            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser!!.uid)
+                            intent.putExtra("userId", FirebaseAuth.getInstance().currentUser!!.uid)
                             mContext.startActivity(intent)
-                            alertDialog.dismiss()
+                            dialogInterface.dismiss()
                         }
 
                         alertDialog.show()
                     }
                     else {
-                        if (counter > 0) {
-                            textView.text = "My Story"
-                            imageView.visibility = View.GONE
-                        }
-                        else {
-                            textView.text = "Add Story"
-                            imageView.visibility = View.VISIBLE
-                        }
+                        val intent = Intent(mContext, AddStoryActivity::class.java)
+                        intent.putExtra("userId", FirebaseAuth.getInstance().currentUser!!.uid)
+                        mContext.startActivity(intent)
                     }
                 }
-
+                else {
+                    if (counter > 0) {
+                        textView.text = "My Story"
+                        imageView.visibility = View.GONE
+                    }
+                    else {
+                        textView.text = "Add Story"
+                        imageView.visibility = View.VISIBLE
+                    }
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {}
