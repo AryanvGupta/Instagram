@@ -97,7 +97,7 @@ class StoryAdapter (private val mContext: Context,
     private fun userInfo(viewHolder: ViewHolder, userId: String, position: Int) {
         val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
 
-        usersRef.addValueEventListener(object : ValueEventListener {
+        usersRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
 
                 if (p0.exists()){
@@ -121,7 +121,7 @@ class StoryAdapter (private val mContext: Context,
             .child("Stories")
             .child(FirebaseAuth.getInstance().currentUser!!.uid)
 
-        storyRef.addValueEventListener(object : ValueEventListener {
+        storyRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(pO: DataSnapshot) {
                 var counter = 0
                 val timeCurrent = System.currentTimeMillis()

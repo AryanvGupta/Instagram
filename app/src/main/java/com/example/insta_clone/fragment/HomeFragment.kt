@@ -54,9 +54,8 @@ class HomeFragment : Fragment() {
 
         var recyclerViewStory: RecyclerView? = null
         recyclerViewStory = view.findViewById(R.id.recycler_view_story)
-        val linearLayoutManager2 = LinearLayoutManager(context)
-        linearLayoutManager2.reverseLayout = true
-        linearLayoutManager2.stackFromEnd = true
+        recyclerView.setHasFixedSize(true)
+        val linearLayoutManager2 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewStory.layoutManager = linearLayoutManager2
 
         storyList = ArrayList()
