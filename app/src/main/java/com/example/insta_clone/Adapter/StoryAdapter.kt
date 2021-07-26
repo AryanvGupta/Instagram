@@ -84,7 +84,7 @@ class StoryAdapter (private val mContext: Context,
 
         holder.itemView.setOnClickListener {
             if (holder.adapterPosition === 0) {
-                myStories(holder.addStoryText!!, holder.storyPlusBtn!!, false)
+                myStories(holder.addStoryText!!, holder.storyPlusBtn!!, true)
             }
             else {
                 val intent = Intent(mContext, StoryActivity::class.java)
