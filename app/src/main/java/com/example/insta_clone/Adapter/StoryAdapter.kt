@@ -1,5 +1,6 @@
 package com.example.insta_clone.Adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -13,6 +14,8 @@ import com.example.insta_clone.AddStoryActivity
 import com.example.insta_clone.Model.Story
 import com.example.insta_clone.Model.User
 import com.example.insta_clone.R
+import com.example.insta_clone.StoryActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -54,7 +57,8 @@ class StoryAdapter (private val mContext: Context,
         return if (viewType == 0) {
             val view = LayoutInflater.from(mContext).inflate(R.layout.add_story_item_layout, parent, false)
             ViewHolder(view)
-        } else {
+        }
+        else {
             val view = LayoutInflater.from(mContext).inflate(R.layout.story_item_layout, parent, false)
             ViewHolder(view)
         }
@@ -70,10 +74,23 @@ class StoryAdapter (private val mContext: Context,
 
         userInfo(holder, story.getUserId(), position)
 
+        if (holder.adapterPosition !== 0) {
+            seenStory(holder, story.getUserId())
+        }
+        if (holder.adapterPosition === 0) {
+            myStories(holder.addStoryText!!, holder.storyPlusBtn!!, false)
+        }
+
+
         holder.itemView.setOnClickListener {
-            val intent = Intent(mContext, AddStoryActivity::class.java)
-            intent.putExtra("userid", story.getUserId())
-            mContext.startActivity(intent)
+            if (holder.adapterPosition === 0) {
+                myStories(holder.addStoryText!!, holder.storyPlusBtn!!, false)
+            }
+            else {
+                val intent = Intent(mContext, StoryActivity::class.java)
+                intent.putExtra("userid", story.getUserId())
+                mContext.startActivity(intent)
+            }
         }
     }
 
@@ -93,6 +110,96 @@ class StoryAdapter (private val mContext: Context,
                         viewHolder.storyUsername!!.text = user.getUsername()
                     }
                 }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun myStories(textView: TextView, imageView: ImageView, click: Boolean) {
+        val storyRef = FirebaseDatabase.getInstance().reference
+            .child("Stories")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+
+        storyRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(pO: DataSnapshot) {
+                var counter = 0
+                val timeCurrent = System.currentTimeMillis()
+
+                for (snapshot in pO.children) {
+                    val story = snapshot.getValue(Story::class.java)
+
+                    if (timeCurrent > story!!.getTimeStart() && timeCurrent < story!!.getTimeEnd()) {
+                        counter++
+                    }
+                }
+
+                if (click) {
+                    if (counter > 0) {
+                        val alertDialog = AlertDialog.Builder(mContext).create()
+
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "View Story") {
+                            dialogInterface, which ->
+
+                            val intent = Intent(mContext, StoryActivity::class.java)
+                            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser!!.uid)
+                            mContext.startActivity(intent)
+                            alertDialog.dismiss()
+                        }
+
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Add Story") {
+                                dialogInterface, which ->
+
+                            val intent = Intent(mContext, AddStoryActivity::class.java)
+                            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser!!.uid)
+                            mContext.startActivity(intent)
+                            alertDialog.dismiss()
+                        }
+
+                        alertDialog.show()
+                    }
+                    else {
+                        if (counter > 0) {
+                            textView.text = "My Story"
+                            imageView.visibility = View.GONE
+                        }
+                        else {
+                            textView.text = "Add Story"
+                            imageView.visibility = View.VISIBLE
+                        }
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun seenStory(viewHolder: ViewHolder, userId: String) {
+        val storyRef = FirebaseDatabase.getInstance().reference
+            .child("Stories")
+            .child(userId)
+
+        storyRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(pO: DataSnapshot) {
+                var i = 0
+                for (snapshot in pO.children) {
+                    if (!snapshot.child("views").child(FirebaseAuth.getInstance().currentUser!!.uid).exists()
+                        && System.currentTimeMillis() < snapshot.getValue(Story::class.java)!!.getTimeEnd()) {
+                        i += 1
+                    }
+                }
+
+                if (i>0) {
+                    viewHolder.storyImage!!.visibility = View.VISIBLE
+                    viewHolder.storyImageSeen!!.visibility = View.GONE
+                }
+                else {
+                    viewHolder.storyImage!!.visibility = View.GONE
+                    viewHolder.storyImageSeen!!.visibility = View.VISIBLE
+                }
+
             }
 
             override fun onCancelled(error: DatabaseError) {}
