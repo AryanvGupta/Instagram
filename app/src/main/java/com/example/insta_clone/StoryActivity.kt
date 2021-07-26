@@ -127,7 +127,7 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
                 storiesProgressView!!.setStoryDuration(6000L)
                 storiesProgressView!!.setStoriesListener(this@StoryActivity)
                 storiesProgressView!!.startStories(counter)
-                Picasso.get().load(imagesList!!.get(counter)).placeholder(R.drawable.profile).into(image_story)
+                Picasso.get().load(imagesList!![counter]).placeholder(R.drawable.profile).into(image_story)
 
                 addViewToStory(storyIDsList!!.get(counter))
                 seenNumber(storyIDsList!!.get(counter))
@@ -193,6 +193,8 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
     }
 
     override fun onPrev() {
+        if (counter-1 < 0)
+            return
         Picasso.get().load(imagesList!![--counter]).placeholder(R.drawable.profile).into(image_story)
 
         seenNumber(storyIDsList!![counter])
