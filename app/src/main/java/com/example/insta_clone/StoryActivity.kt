@@ -108,7 +108,7 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
             .child("Stories")
             .child(userId!!)
 
-        ref.addValueEventListener(object : ValueEventListener {
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(pO: DataSnapshot) {
                 (imagesList as ArrayList<String>).clear()
                 (storyIDsList as ArrayList<String>).clear()
